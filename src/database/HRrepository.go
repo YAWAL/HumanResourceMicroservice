@@ -1,8 +1,9 @@
 package database
 
 import (
-	"github.com/YAWAL/ERP-common-lib/models"
 	"time"
+
+	"github.com/YAWAL/ERP-common-lib/models"
 )
 
 type EmployeeRepository interface {

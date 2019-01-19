@@ -1,9 +1,9 @@
 package router
 
 import (
+	"github.com/YAWAL/HumanResourceMicroservice/src/HRusecases"
 	"net/http/pprof"
 
-	"github.com/YAWAL/ERP/back-end/HumanResourcesService/HRusecases"
 	"github.com/gorilla/mux"
 )
 
@@ -13,6 +13,7 @@ func init() {
 	Router = mux.NewRouter()
 
 	hrApi := Router.PathPrefix("/HRMS").Subrouter()
+
 	hrApi.HandleFunc("/", HRusecases.TempIndexPage)
 	hrApi.HandleFunc("/employees", HRusecases.ShowAllEmployees).Methods("GET")
 	hrApi.HandleFunc("/employees/{name:[a-z]+}", HRusecases.ShowAllEmployeesByName).Methods("GET")

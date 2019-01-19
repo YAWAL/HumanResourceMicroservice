@@ -3,9 +3,6 @@ package HRusecases
 import (
 	"fmt"
 	"net/http"
-
-	"github.com/YAWAL/ERP/back-end/HumanResourcesService/HRrepository"
-	"github.com/YAWAL/ERP/back-end/common"
 )
 
 // temporary HR index page
@@ -25,9 +22,9 @@ func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
 // ShowAllEmployees renders all employees from database
 // GET/ employees
 func ShowAllEmployees(w http.ResponseWriter, r *http.Request) {
-	common.RenderJSON(w, (HRrepository.Employee{}).GetEmployees())
+	//common.RenderJSON(w, (models.Employee{}).GetEmployees())
 }
 
 func ShowAllEmployeesByName(w http.ResponseWriter, r *http.Request) {
-	common.RenderJSON(w, (HRrepository.Employee{}).GetEmployeeByName)
+	//common.RenderJSON(w, (models.Employee{}).GetEmployeeByName)
 }

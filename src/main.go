@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/YAWAL/ERP/back-end/HumanResourcesService/router"
-	"github.com/YAWAL/ERP/back-end/tool/logging"
 	"net/http"
+
+	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
+	"github.com/YAWAL/HumanResourceMicroservice/src/router"
 )
 
 func main() {

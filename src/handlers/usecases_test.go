@@ -1,4 +1,4 @@
-package HRusecases
+package handlers
 
 import (
 	"net/http"

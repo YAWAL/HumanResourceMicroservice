@@ -1,4 +1,4 @@
-package HRusecases
+package handlers
 
 import (
 	"fmt"
@@ -22,9 +22,9 @@ func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
 // ShowAllEmployees renders all employees from database
 // GET/ employees
 func ShowAllEmployees(w http.ResponseWriter, r *http.Request) {
-	//common.RenderJSON(w, (models.Employee{}).GetEmployees())
+
 }
 
 func ShowAllEmployeesByName(w http.ResponseWriter, r *http.Request) {
-	//common.RenderJSON(w, (models.Employee{}).GetEmployeeByName)
+
 }

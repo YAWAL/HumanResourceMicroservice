@@ -27,54 +27,54 @@ func (e Employee) GetEmployees() []Employee {
 
 }
 
-func (e Employee) GetEmployeeById(id int64) *models.Employee {
+func (e Employee) GetEmployeeByID(id int64) *Employee {
 
 	fmt.Println("GetEmployeeById not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByName(name string) []*models.Employee {
+func (e Employee) GetEmployeeByName(name string) []Employee {
 	fmt.Println("GetEmployeeByName not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByLastName(lastName string) []*models.Employee {
+func (e Employee) GetEmployeeByLastName(lastName string) []Employee {
 	fmt.Println("GetEmployeeByLastName not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByNameAndLastName(name, lastName string) []*models.Employee {
+func (e Employee) GetEmployeeByNameAndLastName(name, lastName string) []Employee {
 	fmt.Println("GetEmployeeByNameAndLastName not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByIdentificationNum(id int64) *models.Employee {
+func (e Employee) GetEmployeeByIdentificationNum(id int64) *Employee {
 	fmt.Println("GetEmployeeByIdentificationNum not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByPosition(position string) []*models.Employee {
+func (e Employee) GetEmployeeByPosition(position string) []Employee {
 	fmt.Println("GetEmployeeByPosition not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByJoinDate(joinDate time.Time) []*models.Employee {
+func (e Employee) GetEmployeeByJoinDate(joinDate time.Time) []Employee {
 	fmt.Println("GetEmployeeByJoinDate not implemented yet")
 	return nil
 }
 
-func (e Employee) GetEmployeeByQuitDate(quitDate time.Time) []*models.Employee {
+func (e Employee) GetEmployeeByQuitDate(quitDate time.Time) []Employee {
 	fmt.Println("GetEmployeeByQuitDate not implemented yet")
 	return nil
 }
 
-func CreateEmployee(emp *models.Employee) error {
+func CreateEmployee(emp Employee) error {
 	fmt.Println("CreateEmployee not implemented yet")
 
 	return nil
 }
 
-func UpdateEmployee(emp *models.Employee) error {
+func UpdateEmployee(emp Employee) error {
 	fmt.Println("UpdateEmployee not implemented yet")
 	return nil
 }

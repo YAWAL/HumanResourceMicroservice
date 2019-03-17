@@ -1,0 +1,10 @@
+{
+  "host": "",
+  "database": {
+    "dialect": "dialect",
+    "user": "user",
+    "data_base_name": "",
+    "ssl_mode": "",
+    "password": ""
+  }
+}

@@ -1,9 +1,9 @@
 package database
 
 type Config struct {
-	Dialect      string
-	User         string
-	DataBaseName string
-	SSLMode      string
-	Password     string
+	Dialect      string `json:"dialect"`
+	User         string `json:"user"`
+	DataBaseName string `json:"data_base_name"`
+	SSLMode      string `json:"disable"`
+	Password     string `json:"password"`
 }

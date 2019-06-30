@@ -2,13 +2,14 @@ package app
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/YAWAL/HumanResourceMicroservice/src/HRrepository"
 	"github.com/YAWAL/HumanResourceMicroservice/src/config"
 	"github.com/YAWAL/HumanResourceMicroservice/src/database"
 	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 	"github.com/YAWAL/HumanResourceMicroservice/src/router"
-	"net/http"
-	"os"
 )
 
 func LoadApp() error {

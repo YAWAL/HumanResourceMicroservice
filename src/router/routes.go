@@ -8,16 +8,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func InitRouter() *mux.Router {
-	var router *mux.Router
-
-	router = mux.NewRouter()
-
-	hrApi := router.PathPrefix("/HRMS").Subrouter()
-
-	hrApi.HandleFunc("/", handlers.TempIndexPage)
-	hrApi.HandleFunc("/employees", handlers.ShowAllEmployees).Methods(http.MethodGet)
-	hrApi.HandleFunc("/employees/{name:[a-z]+}", handlers.ShowAllEmployeesByName).Methods(http.MethodGet)
-
-	return router
+func InitRouter() (r *mux.Router) {
+	r = mux.NewRouter()
+	api := r.PathPrefix("/humanResources").Subrouter()
+	api.HandleFunc("/", handlers.TempIndexPage)
+	api.HandleFunc("/employees", handlers.ShowAllEmployees).Methods(http.MethodGet)
+	api.HandleFunc("/employees/{name:[a-z]+}", handlers.ShowAllEmployeesByName).Methods(http.MethodGet)
+	return r
 }

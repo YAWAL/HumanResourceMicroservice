@@ -1,6 +1,8 @@
 package database
 
-import "github.com/YAWAL/ERP-common-lib/models"
+import (
+	"github.com/YAWAL/ERP-common-lib/models"
+)
 
 type EmployeeAddress models.EmployeeAddress
 

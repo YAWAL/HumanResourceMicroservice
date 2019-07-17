@@ -3,7 +3,7 @@
   "database": {
     "dialect": "dialect",
     "user": "user",
-    "data_base_name": "",
+    "db_name": "",
     "ssl_mode": "",
     "password": ""
   }

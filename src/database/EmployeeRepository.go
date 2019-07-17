@@ -1,8 +1,6 @@
 package database
 
 import (
-	"time"
-
 	"github.com/YAWAL/ERP-common-lib/models"
 )
 
@@ -15,12 +13,12 @@ type EmployeeRepository interface {
 	DeleteEmployee(id int64) (bool, error)
 	GetEmployees() []*Employee
 
-	GetEmployeeById(id int64) *Employee
-	GetEmployeeByName(name string) []*Employee
-	GetEmployeeByLastName(lastName string) []*Employee
-	GetEmployeeByNameAndLastName(name, lastName string) []*Employee
-	GetEmployeeByIdentificationNum(id int64) *Employee
-	GetEmployeeByPosition(position string) []*Employee
-	GetEmployeeByJoinDate(joinDate time.Time) []*Employee
-	GetEmployeeByQuitDate(quitDate time.Time) []*Employee
+	//GetEmployeeById(id int64) *Employee
+	//GetEmployeeByName(name string) []*Employee
+	//GetEmployeeByLastName(lastName string) []*Employee
+	//GetEmployeeByNameAndLastName(name, lastName string) []*Employee
+	//GetEmployeeByIdentificationNum(id int64) *Employee
+	//GetEmployeeByPosition(position string) []*Employee
+	//GetEmployeeByJoinDate(joinDate time.Time) []*Employee
+	//GetEmployeeByQuitDate(quitDate time.Time) []*Employee
 }

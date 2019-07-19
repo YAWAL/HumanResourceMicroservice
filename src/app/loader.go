@@ -3,11 +3,11 @@ package app
 import (
 	"context"
 	"fmt"
+	"github.com/YAWAL/HumanResourceMicroservice/src/repository"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/YAWAL/HumanResourceMicroservice/src/HRrepository"
 	"github.com/YAWAL/HumanResourceMicroservice/src/config"
 	"github.com/YAWAL/HumanResourceMicroservice/src/database"
 	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
@@ -16,7 +16,7 @@ import (
 
 func LoadApp() (srv *http.Server, err error) {
 	// read, config
-	conf, err := config.LoadConfig(os.Args[0])
+	conf, err := config.ReadConfig(os.Args[0])
 	if err != nil {
 		logging.Log.Errorf("Cannot load config: ", err.Error())
 		return nil, err
@@ -29,7 +29,7 @@ func LoadApp() (srv *http.Server, err error) {
 	}
 
 	//init repos
-	repo := HRrepository.NewPostgresRepository(db)
+	repo := repository.NewPostgresRepository(db)
 	fmt.Println(repo)
 	// init handlers
 

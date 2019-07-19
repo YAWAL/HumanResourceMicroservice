@@ -1,10 +1,10 @@
 {
-  "host": "",
+  "host": ":host",
   "database": {
     "dialect": "dialect",
     "user": "user",
-    "db_name": "",
-    "ssl_mode": "",
-    "password": ""
+    "db_name": "db_name",
+    "ssl_mode": "ssl_mode",
+    "password": "password"
   }
 }

@@ -1,4 +1,4 @@
-package HRrepository
+package repository
 
 import (
 	"fmt"
@@ -19,13 +19,13 @@ type PostgresHRrepository struct {
 }
 
 //GetEmployees() []*repo.Employee
-func (pg PostgresHRrepository) GetEmployees() []*db.Employee {
-	var Employees []*db.Employee
+func (pg PostgresHRrepository) GetEmployees() *[]db.Employee {
+	var Employees []db.Employee
 	// SELECT * FROM employees
 	rows := pg.conn.Table("employees")
-	rows.Scan(&Employees)
+	rows.Scan(Employees)
 
-	return Employees
+	return &Employees
 
 }
 

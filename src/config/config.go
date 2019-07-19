@@ -12,7 +12,7 @@ type Config struct {
 	Database database.Config `json:"database"`
 }
 
-func LoadConfig(path string) (conf *Config, err error) {
+func ReadConfig(path string) (conf *Config, err error) {
 	confData, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err

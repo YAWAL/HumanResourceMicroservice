@@ -11,10 +11,10 @@ func PGconn(conf Config) (db *gorm.DB, err error) {
 	db, err = gorm.Open(conf.Dialect, fmt.Sprintf("user=%s dbname=%s sslmode=%s password=%s", conf.User,
 		conf.DataBaseName, conf.SSLMode, conf.Password))
 	if err != nil {
-		logging.Log.Errorf("error during connection to Postgres has occurred %s", err.Error())
+		logging.Log.Errorf("error during connection to Postgres: %s", err.Error())
 		return nil, err
 	} else {
-		logging.Log.Info("connection to Postgres has been established")
+		logging.Log.Info("Connection to Postgres has been established")
 	}
 	return db, err
 }

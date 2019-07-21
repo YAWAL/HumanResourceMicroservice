@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	db "github.com/YAWAL/HumanResourceMicroservice/src/database"
+	"github.com/YAWAL/ERP-common-lib/models"
+	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
+	"github.com/google/uuid"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,74 +22,101 @@ type PostgresHRrepository struct {
 }
 
 //GetEmployees() []*repo.Employee
-func (pg PostgresHRrepository) GetEmployees() *[]db.Employee {
-	var Employees []db.Employee
+func (pg PostgresHRrepository) GetEmployees() []models.Employee {
+	var Employees []models.Employee
 	// SELECT * FROM employees
 	rows := pg.conn.Table("employees")
-	rows.Scan(Employees)
-
-	return &Employees
-
+	rows.Scan(&Employees)
+	return Employees
 }
 
 //GetEmployeeById(id int64) *repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByID(id int64) *db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByID(id int64) *models.Employee {
 
 	fmt.Println("GetEmployeeById not implemented yet")
 	return nil
 }
 
 //GetEmployeeByName(name string) []*repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByName(name string) []db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByName(name string) []models.Employee {
 	fmt.Println("GetEmployeeByName not implemented yet")
 	return nil
 }
 
 //GetEmployeeByLastName(lastName string) []*repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByLastName(lastName string) []*db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByLastName(lastName string) []*models.Employee {
 	fmt.Println("GetEmployeeByLastName not implemented yet")
 	return nil
 }
 
-//GetEmployeeByNameAndLastName(name, lastName string) []*repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByNameAndLastName(name, lastName string) []*db.Employee {
+//GetEmployeeByNameAndLastName(name, lastName string) []*repo.Employeeemployee_pk
+func (pg PostgresHRrepository) GetEmployeeByNameAndLastName(name, lastName string) []*models.Employee {
 	fmt.Println("GetEmployeeByNameAndLastName not implemented yet")
 	return nil
 }
 
 //GetEmployeeByIdentificationNum(id int64) *repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByIdentificationNum(id int64) *db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByIdentificationNum(id int64) *models.Employee {
 	fmt.Println("GetEmployeeByIdentificationNum not implemented yet")
 	return nil
 }
 
 //GetEmployeeByPosition(position string) []*repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByPosition(position string) []*db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByPosition(position string) []*models.Employee {
 	fmt.Println("GetEmployeeByPosition not implemented yet")
 	return nil
 }
 
 //GetEmployeeByJoinDate(joinDate time.Time) []*repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByJoinDate(joinDate time.Time) []db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByJoinDate(joinDate time.Time) []models.Employee {
 	fmt.Println("GetEmployeeByJoinDate not implemented yet")
 	return nil
 }
 
 //GetEmployeeByQuitDate(quitDate time.Time) []*repo.Employee
-func (pg PostgresHRrepository) GetEmployeeByQuitDate(quitDate time.Time) []db.Employee {
+func (pg PostgresHRrepository) GetEmployeeByQuitDate(quitDate time.Time) []models.Employee {
 	fmt.Println("GetEmployeeByQuitDate not implemented yet")
 	return nil
 }
 
 //CreateEmployee(emp *repo.Employee) error
-func (pg PostgresHRrepository) CreateEmployee(emp *db.Employee) error {
-	fmt.Println("CreateEmployee not implemented yet")
+func (pg PostgresHRrepository) CreateEmployee(emp *models.Employee) error {
+	//generate uuid
+	id, err := uuid.NewUUID()
+	if err != nil {
+		return err
+	}
+	emp.ID = id
+	pg.conn.Create(emp)
+	logging.Log.Infof("employee created: %s", emp)
+	//info := emp.EmployeeInfo
+	//info.EmployeeID = id
+	//err = pg.CreateEmployeeInfo(&info)
+	//if err != nil {
+	//	return err
+	//}
+	//address := emp.EmployeeInfo.EmployeeAddress
+	//address.EmployeeID = id
+	//err = pg.CreateEmployeeAddress(&address)
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 }
 
+func (pg PostgresHRrepository) CreateEmployeeInfo(info *models.EmployeeInfo) error {
+	pg.conn.Create(info)
+	return nil
+}
+
+func (pg PostgresHRrepository) CreateEmployeeAddress(address *models.EmployeeAddress) error {
+	pg.conn.Create(address)
+	return nil
+}
+
 //UpdateEmployee(emp *repo.Employee) error
-func (pg PostgresHRrepository) UpdateEmployee(emp *db.Employee) error {
+func (pg PostgresHRrepository) UpdateEmployee(emp *models.Employee) error {
 	fmt.Println("UpdateEmployee not implemented yet")
 	return nil
 }

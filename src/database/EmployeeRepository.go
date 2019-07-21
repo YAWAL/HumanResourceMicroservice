@@ -4,14 +4,11 @@ import (
 	"github.com/YAWAL/ERP-common-lib/models"
 )
 
-// where this var should be
-type Employee models.Employee
-
 type EmployeeRepository interface {
-	CreateEmployee(emp *Employee) error
-	UpdateEmployee(emp *Employee) error
+	CreateEmployee(emp *models.Employee) error
+	UpdateEmployee(emp *models.Employee) error
 	DeleteEmployee(id int64) (bool, error)
-	GetEmployees() []*Employee
+	GetEmployees() []models.Employee
 
 	//GetEmployeeById(id int64) *Employee
 	//GetEmployeeByName(name string) []*Employee

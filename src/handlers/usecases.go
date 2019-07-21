@@ -1,8 +1,14 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+
+	"github.com/YAWAL/ERP-common-lib/models"
+	"github.com/YAWAL/HumanResourceMicroservice/src/database"
+	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 )
 
 // temporary HR index page
@@ -21,10 +27,56 @@ func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
 
 // ShowAllEmployees renders all employees from database
 // GET/ employees
-func ShowAllEmployees(w http.ResponseWriter, r *http.Request) {
+//func ShowAllEmployees(w http.ResponseWriter, r *http.Request) {
+//
+//}
 
+func ShowAllEmployees(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		employees := er.GetEmployees()
+		if employees == nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		data, err := json.Marshal(employees)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("content-type", "application/json")
+		_, err = w.Write(data)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		return
+	}
 }
 
 func ShowAllEmployeesByName(w http.ResponseWriter, r *http.Request) {
 
+}
+
+func CreateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		b, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		defer r.Body.Close()
+		var employee models.Employee
+		if err = json.Unmarshal(b, &employee); err != nil {
+			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		if err = er.CreateEmployee(&employee); err != nil {
+			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		return
+	}
 }

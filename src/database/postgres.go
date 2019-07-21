@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+
 	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"

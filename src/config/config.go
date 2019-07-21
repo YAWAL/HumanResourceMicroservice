@@ -12,14 +12,13 @@ type Config struct {
 	Database database.Config `json:"database"`
 }
 
-func ReadConfig(path string) (conf *Config, err error) {
-	confData, err := ioutil.ReadFile(path)
+func ReadConfig(filename string) (conf Config, err error) {
+	confData, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return nil, err
+		return conf, err
 	}
-	err = json.Unmarshal(confData, conf)
-	if err != nil {
-		return nil, err
+	if err = json.Unmarshal(confData, &conf); err != nil {
+		return conf, err
 	}
 	return conf, nil
 }

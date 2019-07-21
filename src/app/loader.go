@@ -2,11 +2,11 @@ package app
 
 import (
 	"context"
-	"fmt"
-	"github.com/YAWAL/HumanResourceMicroservice/src/repository"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/YAWAL/HumanResourceMicroservice/src/repository"
 
 	"github.com/YAWAL/HumanResourceMicroservice/src/config"
 	"github.com/YAWAL/HumanResourceMicroservice/src/database"
@@ -14,9 +14,9 @@ import (
 	"github.com/YAWAL/HumanResourceMicroservice/src/router"
 )
 
-func LoadApp() (srv *http.Server, err error) {
+func LoadApp(file string) (srv *http.Server, err error) {
 	// read, config
-	conf, err := config.ReadConfig(os.Args[0])
+	conf, err := config.ReadConfig(file)
 	if err != nil {
 		logging.Log.Errorf("Cannot load config: ", err.Error())
 		return nil, err
@@ -30,11 +30,9 @@ func LoadApp() (srv *http.Server, err error) {
 
 	//init repos
 	repo := repository.NewPostgresRepository(db)
-	fmt.Println(repo)
-	// init handlers
 
 	// init routers
-	r := router.InitRouter()
+	r := router.InitRouter(repo)
 
 	srv = &http.Server{
 		Handler:      r,
@@ -43,6 +41,7 @@ func LoadApp() (srv *http.Server, err error) {
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
 	}
+	logging.Log.Infof("Application is running on %s ", conf.Host)
 
 	return srv, nil
 }

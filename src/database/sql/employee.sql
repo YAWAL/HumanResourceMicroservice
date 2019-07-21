@@ -1,18 +1,18 @@
 CREATE TABLE IF NOT EXISTS "employees" (
-  "employee_id"        BIGSERIAL   NOT NULL,
-  "name"               VARCHAR(20) NOT NULL,
-  "last_name"          VARCHAR(30) NOT NULL,
-  "middle_name"          VARCHAR(30),
-  "pass_series_num"    VARCHAR(10),
-  "identification_num" VARCHAR(20),
-  "address_id"         INTEGER     NOT NULL,
-  "birth_date"         DATE        NOT NULL,
-  "employee_type"      VARCHAR(20),
-  "position"           VARCHAR(100),
-  "join_date"          DATE        NOT NULL,
-  "quit_date"          DATE,
-  "is_quit"            BOOLEAN DEFAULT FALSE,
-  CONSTRAINT "employee_pk" PRIMARY KEY ("employee_id")
+                                           "employee_id"        uuid        NOT NULL,
+                                           "name"               VARCHAR(20) NOT NULL,
+                                           "last_name"          VARCHAR(30) NOT NULL,
+                                           "middle_name"        VARCHAR(30),
+                                           "pass_series_num"    VARCHAR(10),
+                                           "identification_num" VARCHAR(20),
+                                           "address_id"         INTEGER     NOT NULL,
+                                           "birth_date"         DATE        NOT NULL,
+                                           "employee_type"      VARCHAR(20),
+                                           "position"           VARCHAR(100),
+                                           "join_date"          DATE        NOT NULL,
+                                           "quit_date"          DATE,
+                                           "is_quit"            BOOLEAN DEFAULT FALSE,
+                                           CONSTRAINT "employee_pk" PRIMARY KEY ("employee_id")
 );
 
 INSERT INTO employees (

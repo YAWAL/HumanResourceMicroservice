@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS "employees"
 
 CREATE TABLE IF NOT EXISTS "employee_infos"
 (
-    "employee_info_id"   INTEGER NOT NULL,
-    "employee_id"        UUID    NOT NULL,
+    "employee_info_id"   UUID NOT NULL,
     "pass_series_num"    VARCHAR(10),
     "identification_num" VARCHAR(20),
     "birth_date"         DATE,
@@ -21,10 +20,9 @@ CREATE TABLE IF NOT EXISTS "employee_infos"
     CONSTRAINT "employee_infos_pk" PRIMARY KEY ("employee_info_id")
 );
 
-CREATE TABLE IF NOT EXISTS "address"
+CREATE TABLE IF NOT EXISTS "employee_addresses"
 (
-    "address_id"      INTEGER NOT NULL,
-    "employee_id"     UUID    NOT NULL,
+    "address_id"      UUID NOT NULL,
     "phone_num"       VARCHAR,
     "residence_place" VARCHAR,
     "street"          VARCHAR,
@@ -33,38 +31,3 @@ CREATE TABLE IF NOT EXISTS "address"
     "zip"             VARCHAR,
     CONSTRAINT "address_pk" PRIMARY KEY ("address_id")
 );
-
-CREATE TABLE IF NOT EXISTS "departments"
-(
-    "department_id"   INTEGER NOT NULL,
-    "department_name" VARCHAR(50),
-    "chairman_id"     INTEGER NOT NULL,
-    CONSTRAINT "department_pk" PRIMARY KEY ("department_id")
-);
-
-CREATE TABLE IF NOT EXISTS "workshops"
-(
-    "workshop_id"   INTEGER NOT NULL,
-    "workshop_name" VARCHAR(50),
-    "chairman_id"   INTEGER NOT NULL,
-    CONSTRAINT "workshop_pk" PRIMARY KEY ("workshop_id")
-);
-
-CREATE TABLE IF NOT EXISTS "department_employees"
-(
-    "employee_id"   BIGSERIAL NOT NULL,
-    "department_id" INTEGER   NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS "workshop_employees"
-(
-    "employee_id" BIGSERIAL NOT NULL,
-    "workshop_id" INTEGER   NOT NULL
-);
-
-ALTER TABLE "employees"
-    ADD CONSTRAINT "address_employee_fk"
-        FOREIGN KEY ("address_id")
-            REFERENCES "address" ("address_id")
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION;

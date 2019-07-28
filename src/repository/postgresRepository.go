@@ -2,10 +2,10 @@ package repository
 
 import (
 	"fmt"
+	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 	"time"
 
 	"github.com/YAWAL/ERP-common-lib/models"
-	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 	"github.com/google/uuid"
 
 	"github.com/jinzhu/gorm"
@@ -88,31 +88,28 @@ func (pg PostgresHRrepository) CreateEmployee(emp *models.Employee) error {
 	}
 	emp.ID = id
 	pg.conn.Create(emp)
+	info := emp.EmployeeInfo
+	info.ID = id
+	err = pg.CreateEmployeeInfo(&info)
+	if err != nil {
+		return err
+	}
+	address := emp.EmployeeInfo.EmployeeAddress
+	address.ID = id
+	err = pg.CreateEmployeeAddress(&address)
+	if err != nil {
+		return err
+	}
 	logging.Log.Infof("employee created: %s", emp)
-	//info := emp.EmployeeInfo
-	//info.EmployeeID = id
-	//err = pg.CreateEmployeeInfo(&info)
-	//if err != nil {
-	//	return err
-	//}
-	//address := emp.EmployeeInfo.EmployeeAddress
-	//address.EmployeeID = id
-	//err = pg.CreateEmployeeAddress(&address)
-	//if err != nil {
-	//	return err
-	//}
-
 	return nil
 }
 
 func (pg PostgresHRrepository) CreateEmployeeInfo(info *models.EmployeeInfo) error {
-	pg.conn.Create(info)
-	return nil
+	return pg.conn.Create(info).Error
 }
 
 func (pg PostgresHRrepository) CreateEmployeeAddress(address *models.EmployeeAddress) error {
-	pg.conn.Create(address)
-	return nil
+	return pg.conn.Create(address).Error
 }
 
 //UpdateEmployee(emp *repo.Employee) error

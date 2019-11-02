@@ -1,9 +1,8 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"html/template"
 	"net/http"
 
 	"github.com/YAWAL/ERP-common-lib/models"
@@ -11,44 +10,57 @@ import (
 	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 )
 
-// temporary HR index page
-var HRwebpage = "<!DOCTYPE html><html>" +
-	"<head>" +
-	"<title>Human Resources Management</title>" +
-	"</head>" +
-	"<body>" +
-	"<p>Human Resources service</p>" +
-	"</body>" +
-	"</html>"
+// TODO replace for static html
+func TempIndexPage(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "text/html")
 
-func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(writer, HRwebpage)
+	t, err := template.ParseFiles(".\\templates\\index.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+	err = t.Execute(w, "Hello World!")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+
+		return
+	}
+
 }
 
 // ShowAllEmployees renders all employees from database
-// GET/ employees
-//func ShowAllEmployees(w http.ResponseWriter, r *http.Request) {
-//
-//}
-
 func ShowAllEmployees(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("content-type", "text/html")
+
 		employees := er.GetEmployees()
 		if employees == nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusNotFound)
 			return
 		}
-		data, err := json.Marshal(employees)
+
+
+		renderedEmployees := models.PrepareRenderEmployee(employees)
+		for _, value := range renderedEmployees {
+			fmt.Println(value)
+
+		}
+		t, err := template.ParseFiles(".\\templates\\employees.html")
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 			return
 		}
-		w.Header().Set("content-type", "application/json")
-		_, err = w.Write(data)
+		err = t.Execute(w, renderedEmployees)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+
 			return
 		}
+
 		return
 	}
 }
@@ -59,24 +71,50 @@ func ShowAllEmployeesByName(w http.ResponseWriter, r *http.Request) {
 
 func CreateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		b, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+		tmpl := template.Must(template.ParseFiles(".\\templates\\createEmployee.html"))
+		if r.Method != http.MethodPost {
+			tmpl.Execute(w, nil)
+			return
+		}
+
+		//details := ContactDetails{
+		//	Email:   r.FormValue("email"),
+		//	Subject: r.FormValue("subject"),
+		//	Message: r.FormValue("message"),
+		//}
+		employee :=models.Employee{
+			Name:         r.FormValue("name"),
+			LastName:     r.FormValue("lastName"),
+			MiddleName:   "",
+			Position:     r.FormValue("position"),
+			IsQuit:       false,
+			EmployeeInfo: models.EmployeeInfo{},
+		}
+
+		//defer r.Body.Close()
+		//b, err := ioutil.ReadAll(r.Body)
+		//if err != nil {
+		//	logging.Log.Errorf("CreateEmployee use case error: %s", err.Error())
+		//	w.WriteHeader(http.StatusInternalServerError)
+		//	w.Write([]byte(fmt.Sprint(err)))
+		//	return
+		//}
+		//var employee models.Employee
+		//if err = json.Unmarshal(b, &employee); err != nil {
+		//	logging.Log.Errorf("CreateEmployee use case error: %s", err.Error())
+		//	w.WriteHeader(http.StatusBadRequest)
+		//	w.Write([]byte(fmt.Sprint(err)))
+		//	return
+		//}
+
+
+		if err := er.CreateEmployee(&employee); err != nil {
+			logging.Log.Errorf("CreateEmployee use case error: %s", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprint(err)))
 			return
 		}
-		defer r.Body.Close()
-		var employee models.Employee
-		if err = json.Unmarshal(b, &employee); err != nil {
-			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-		if err = er.CreateEmployee(&employee); err != nil {
-			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		w.WriteHeader(http.StatusCreated)
 		return
 	}
 }

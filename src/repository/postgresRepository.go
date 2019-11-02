@@ -7,7 +7,6 @@ import (
 
 	"github.com/YAWAL/ERP-common-lib/models"
 	"github.com/google/uuid"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -86,8 +85,11 @@ func (pg PostgresHRrepository) CreateEmployee(emp *models.Employee) error {
 	if err != nil {
 		return err
 	}
+	fmt.Sprintf("%s",id)
 	emp.ID = id
-	pg.conn.Create(emp)
+	if err = pg.conn.Create(emp).Error; err != nil {
+		return err
+	}
 	info := emp.EmployeeInfo
 	info.ID = id
 	err = pg.CreateEmployeeInfo(&info)

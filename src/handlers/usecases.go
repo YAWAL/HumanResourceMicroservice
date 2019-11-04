@@ -33,19 +33,22 @@ func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
 
 func ShowAllEmployees(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		employees := er.GetEmployees()
-		if employees == nil {
+		employees, err := er.GetEmployees()
+		if err != nil {
+			logging.Log.Errorf("ShowAllEmployees error: %s", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		data, err := json.Marshal(employees)
 		if err != nil {
+			logging.Log.Errorf("ShowAllEmployees error: %s", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		w.Header().Set("content-type", "application/json")
 		_, err = w.Write(data)
 		if err != nil {
+			logging.Log.Errorf("ShowAllEmployees error: %s", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -61,22 +64,23 @@ func CreateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *h
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+			logging.Log.Errorf("CreateEmployee error: %s", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		defer r.Body.Close()
 		var employee models.Employee
 		if err = json.Unmarshal(b, &employee); err != nil {
-			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+			logging.Log.Errorf("CreateEmployee error: %s", err.Error())
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		if err = er.CreateEmployee(&employee); err != nil {
-			logging.Log.Errorf("CreateEmployee use case error %s", err.Error())
+			logging.Log.Errorf("CreateEmployee error: %s", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		w.WriteHeader(http.StatusCreated)
 		return
 	}
 }

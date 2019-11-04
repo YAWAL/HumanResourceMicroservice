@@ -8,7 +8,7 @@ type EmployeeRepository interface {
 	CreateEmployee(emp *models.Employee) error
 	UpdateEmployee(emp *models.Employee) error
 	DeleteEmployee(id int64) (bool, error)
-	GetEmployees() []models.Employee
+	GetEmployees() (emps []*models.Employee, err error)
 
 	//GetEmployeeById(id int64) *Employee
 	//GetEmployeeByName(name string) []*Employee

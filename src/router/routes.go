@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/YAWAL/HumanResourceMicroservice/src/database"
-
 	"github.com/YAWAL/HumanResourceMicroservice/src/handlers"
 
 	"github.com/gorilla/mux"

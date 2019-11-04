@@ -7,11 +7,13 @@ import (
 	"github.com/YAWAL/HumanResourceMicroservice/src/database"
 )
 
+// Config structure represents general configuration for application
 type Config struct {
-	Host     string          `json:"host"`
-	Database database.Config `json:"database"`
+	Port     string               `json:"port"`
+	Database database.MongoConfig `json:"database"`
 }
 
+// ReadConfig performs reading config file, validates it and parse into Config structure
 func ReadConfig(filename string) (conf Config, err error) {
 	confData, err := ioutil.ReadFile(filename)
 	if err != nil {

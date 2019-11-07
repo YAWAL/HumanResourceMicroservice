@@ -25,7 +25,7 @@ func main() {
 
 	go app.GracefullShutdown(srv, quit, done)
 
-	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	if err = srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		logging.Log.Infof("Could not listen on %s: %v\n", os.Args[0], err)
 	}
 	<-done

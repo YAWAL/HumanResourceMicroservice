@@ -6,9 +6,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/YAWAL/ERP-common-lib/database"
+	"github.com/YAWAL/ERP-common-lib/logging"
 	"github.com/YAWAL/HumanResourceMicroservice/src/config"
-	"github.com/YAWAL/HumanResourceMicroservice/src/database"
-	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 	"github.com/YAWAL/HumanResourceMicroservice/src/repository"
 	"github.com/YAWAL/HumanResourceMicroservice/src/router"
 )

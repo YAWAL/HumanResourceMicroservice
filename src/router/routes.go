@@ -3,14 +3,14 @@ package router
 import (
 	"net/http"
 
-	"github.com/YAWAL/HumanResourceMicroservice/src/database"
 	"github.com/YAWAL/HumanResourceMicroservice/src/handlers"
+	"github.com/YAWAL/HumanResourceMicroservice/src/repository"
 
 	"github.com/gorilla/mux"
 )
 
 // InitRouter creates gorilla mux router and mapped paths with handler functions
-func InitRouter(er database.EmployeeRepository) (r *mux.Router) {
+func InitRouter(er repository.EmployeeRepository) (r *mux.Router) {
 	r = mux.NewRouter()
 	api := r.PathPrefix("/humanResources").Subrouter()
 	api.HandleFunc("/", handlers.TempIndexPage)

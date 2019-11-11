@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/YAWAL/ERP-common-lib/logging"
 	"github.com/YAWAL/ERP-common-lib/models"
-	"github.com/YAWAL/HumanResourceMicroservice/src/database"
-	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
+	"github.com/YAWAL/HumanResourceMicroservice/src/repository"
 
 	"github.com/gorilla/mux"
 )
@@ -34,7 +34,7 @@ func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
 
 // ShowAllEmployees retrieves all employees from MongoDB
 // GET/ employees
-func ShowAllEmployees(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+func ShowAllEmployees(er repository.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		employees, err := er.GetEmployees()
 		if err != nil {
@@ -61,7 +61,7 @@ func ShowAllEmployees(er database.EmployeeRepository) func(http.ResponseWriter, 
 
 // CreateEmployee creates employee document in MongoDB's database "hr", collection "employees"
 // POST/ employees
-func CreateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+func CreateEmployee(er repository.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -87,7 +87,7 @@ func CreateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *h
 
 // UpdateEmployee updates employee document in MongoDB's database "hr", collection "employees"
 // PUT/ employees
-func UpdateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+func UpdateEmployee(er repository.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -114,7 +114,7 @@ func UpdateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *h
 
 // DeleteEmployee delets employee document from MongoDB's database "hr", collection "employees"
 // DELETE/ employees/{id}
-func DeleteEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+func DeleteEmployee(er repository.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		deleted, err := er.DeleteEmployee(mux.Vars(r)[idParameter])
 		if err != nil {
@@ -133,7 +133,7 @@ func DeleteEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *h
 
 // ShowAllEmployeesByPosition retrieves all employees from MongoDB
 // GET/ employees/{position}
-func ShowAllEmployeesByPosition(er database.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
+func ShowAllEmployeesByPosition(er repository.EmployeeRepository) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		position := mux.Vars(r)[positionParameter]
 		employees, err := er.GetEmployeesByPosition(position)

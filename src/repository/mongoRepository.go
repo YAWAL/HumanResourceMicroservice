@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/YAWAL/ERP-common-lib/logging"
 	"github.com/YAWAL/ERP-common-lib/models"
-	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/YAWAL/ERP-common-lib/logging"
 	"github.com/YAWAL/HumanResourceMicroservice/src/app"
-	"github.com/YAWAL/HumanResourceMicroservice/src/logging"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/YAWAL/HumanResourceMicroservice/src/database"
+	"github.com/YAWAL/ERP-common-lib/database"
 )
 
 // Config structure represents general configuration for application

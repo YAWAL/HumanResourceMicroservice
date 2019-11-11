@@ -1,3 +1,3 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/YAWAL/HumanResourceMicroservice_HRMS)](https://goreportcard.com/report/github.com/YAWAL/HumanResourceMicroservice_HRMS) [![Build Status](https://travis-ci.org/YAWAL/HumanResourceMicroservice.svg?branch=master)](https://travis-ci.org/YAWAL/HumanResourceMicroservice)
+[![Go Report Card](https://goreportcard.com/badge/github.com/YAWAL/HumanResourceMicroservice_HRMS)](https://goreportcard.com/report/github.com/YAWAL/HumanResourceMicroservice_HRMS) [![Build Status](https://travis-ci.org/YAWAL/HumanResourceMicroservice.svg?branch=master)](https://travis-ci.org/YAWAL/HumanResourceMicroservice) [![codecov](https://codecov.io/gh/YAWAL/HumanResourceMicroservice/branch/master/graph/badge.svg)](https://codecov.io/gh/YAWAL/HumanResourceMicroservice)
 
 <h1>Human Resourse Management

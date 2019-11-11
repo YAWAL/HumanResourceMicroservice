@@ -1,7 +1,0 @@
-{
-    "port": ":port",
-    "database": {
-        "host": "host",
-        "port": "port"
-    }
-}

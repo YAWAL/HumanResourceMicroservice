@@ -29,7 +29,7 @@ var HRwebpage = "<!DOCTYPE html><html>" +
 	"</html>"
 
 func TempIndexPage(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(writer, HRwebpage)
+	fmt.Fprint(writer, HRwebpage)
 }
 
 // ShowAllEmployees retrieves all employees from MongoDB
@@ -56,7 +56,6 @@ func ShowAllEmployees(er database.EmployeeRepository) func(http.ResponseWriter, 
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		return
 	}
 }
 
@@ -83,7 +82,6 @@ func CreateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *h
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
-		return
 	}
 }
 
@@ -111,7 +109,6 @@ func UpdateEmployee(er database.EmployeeRepository) func(http.ResponseWriter, *h
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		return
 	}
 }
 

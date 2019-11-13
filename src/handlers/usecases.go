@@ -14,8 +14,13 @@ import (
 )
 
 const (
-	positionParameter = "position"
-	idParameter       = "id"
+	positionParameter                     = "position"
+	idParameter                           = "id"
+	showAllEmployeesErrorString           = "ShowAllEmployees error: %s"
+	createEmployeeErrorString             = "CreateEmployee error: %s"
+	updatEmployeeErrorString              = "UpdateEmployee error: %s"
+	deleteEmployeeErrorString             = "DeleteEmployee error: %s"
+	showAllEmployeesByPositionErrorString = "ShowAllEmployeesByPosition error: %s"
 )
 
 // temporary HR index page
@@ -38,21 +43,21 @@ func ShowAllEmployees(er repository.EmployeeRepository) func(http.ResponseWriter
 	return func(w http.ResponseWriter, r *http.Request) {
 		employees, err := er.GetEmployees()
 		if err != nil {
-			logging.Log.Errorf("ShowAllEmployees error: %s", err.Error())
+			logging.Log.Errorf(showAllEmployeesErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		logging.Log.Infof("ShowAllEmployees: %d employees have been retrieved", len(employees))
 		data, err := json.Marshal(employees)
 		if err != nil {
-			logging.Log.Errorf("ShowAllEmployees error: %s", err.Error())
+			logging.Log.Errorf(showAllEmployeesErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		w.Header().Set("content-type", "application/json")
 		_, err = w.Write(data)
 		if err != nil {
-			logging.Log.Errorf("ShowAllEmployees error: %s", err.Error())
+			logging.Log.Errorf(showAllEmployeesErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -65,19 +70,19 @@ func CreateEmployee(er repository.EmployeeRepository) func(http.ResponseWriter, 
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			logging.Log.Errorf("CreateEmployee error: %s", err.Error())
+			logging.Log.Errorf(createEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		defer r.Body.Close()
 		var employee models.Employee
 		if err = json.Unmarshal(b, &employee); err != nil {
-			logging.Log.Errorf("CreateEmployee error: %s", err.Error())
+			logging.Log.Errorf(createEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		if err = er.CreateEmployee(&employee); err != nil {
-			logging.Log.Errorf("CreateEmployee error: %s", err.Error())
+			logging.Log.Errorf(createEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -91,20 +96,20 @@ func UpdateEmployee(er repository.EmployeeRepository) func(http.ResponseWriter, 
 	return func(w http.ResponseWriter, r *http.Request) {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			logging.Log.Errorf("UpdateEmployee error: %s", err.Error())
+			logging.Log.Errorf(updatEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		defer r.Body.Close()
 		var employee models.Employee
 		if err = json.Unmarshal(b, &employee); err != nil {
-			logging.Log.Errorf("UpdateEmployee error: %s", err.Error())
+			logging.Log.Errorf(updatEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
 		if err = er.UpdateEmployee(&employee); err != nil {
-			logging.Log.Errorf("UpdateEmployee error: %s", err.Error())
+			logging.Log.Errorf(updatEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -118,7 +123,7 @@ func DeleteEmployee(er repository.EmployeeRepository) func(http.ResponseWriter, 
 	return func(w http.ResponseWriter, r *http.Request) {
 		deleted, err := er.DeleteEmployee(mux.Vars(r)[idParameter])
 		if err != nil {
-			logging.Log.Errorf("DeleteEmployee error: %s", err.Error())
+			logging.Log.Errorf(deleteEmployeeErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -138,21 +143,21 @@ func ShowAllEmployeesByPosition(er repository.EmployeeRepository) func(http.Resp
 		position := mux.Vars(r)[positionParameter]
 		employees, err := er.GetEmployeesByPosition(position)
 		if err != nil {
-			logging.Log.Errorf("ShowAllEmployeesByPosition error: %s", err.Error())
+			logging.Log.Errorf(showAllEmployeesByPositionErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		logging.Log.Infof("ShowAllEmployeesByPosition: %d employees with position %s have been retrieved", len(employees), position)
 		data, err := json.Marshal(employees)
 		if err != nil {
-			logging.Log.Errorf("ShowAllEmployeesByPosition error: %s", err.Error())
+			logging.Log.Errorf(showAllEmployeesByPositionErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		w.Header().Set("content-type", "application/json")
 		_, err = w.Write(data)
 		if err != nil {
-			logging.Log.Errorf("ShowAllEmployeesByPosition error: %s", err.Error())
+			logging.Log.Errorf(showAllEmployeesByPositionErrorString, err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
